@@ -1,0 +1,18 @@
+Name, Images
+Brad Pitt, 243 
+Chris Hemsworth, 257
+Christiano Ronaldo, 195
+Elon Musk, 314
+Eminem, 280
+Garry Kaspov, 252
+Jeff Bezoz, 292
+Leonardo di Caprio, 258
+Lionel Messi, 262
+Magnus Carlsen, 239
+Mark Zuckerburg, 298
+Mike Tyson, 293
+Muhammad Ali, 267
+Novak Djokovick, 325
+Sharukh Khan, 208
+Tom Holland, 283
+Will Smith, 253

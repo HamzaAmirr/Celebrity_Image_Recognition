@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebrity Recognition AI Model</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .upload-btn {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .upload-btn:hover {
+            background-color: #3e8e41;
+        }
+        .image-container {
+            margin-top: 20px;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+        }
+        .result h2 {
+            margin-top: 0;
+        }
+        .result ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .result li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .result li:last-child {
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Celebrity Recognition AI Model</h1>
+        </div>
+        <input type="file" id="image-input" accept="image/*">
+        <button class="upload-btn" id="upload-btn">Upload Image</button>
+        <div class="image-container">
+            <img id="image" src="" alt="Uploaded Image">
+        </div>
+        <div class="result">
+            <h2>Recognition Results:</h2>
+            <ul id="results"></ul>
+        </div>
+    </div>
+
+    <script>
+        const imageInput = document.getElementById('image-input');
+        const uploadBtn = document.getElementById('upload-btn');
+        const imageContainer = document.getElementById('image-container');
+        const imageElement = document.getElementById('image');
+        const resultsElement = document.getElementById('results');
+
+        uploadBtn.addEventListener('click', () => {
+            const file = imageInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const imageData = reader.result;
+                    imageElement.src = imageData;
+                    uploadImage(file);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function uploadImage(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                displayResults(data);
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function displayResults(data) {
+            resultsElement.innerHTML = '';
+            const result = data;
+            const listItem = document.createElement('li');
+            listItem.textContent = `${result.predicted_class}, confidence of prediction ${result.confidence}`;
+            resultsElement.appendChild(listItem);
+        }
+    </script>
+</body>
+</html>
